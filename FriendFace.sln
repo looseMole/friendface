@@ -5,6 +5,8 @@ VisualStudioVersion = 17.6.33723.286
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FriendFace", "FriendFace\FriendFace.csproj", "{A4D21C1C-9EA1-4E70-80C6-F825EF0BEE6B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FriendFace.Tests", "FriendFace.Tests\FriendFace.Tests.csproj", "{EEADA7A3-5BDC-40D2-AAA6-BE41DD946BC6}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{A4D21C1C-9EA1-4E70-80C6-F825EF0BEE6B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A4D21C1C-9EA1-4E70-80C6-F825EF0BEE6B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A4D21C1C-9EA1-4E70-80C6-F825EF0BEE6B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EEADA7A3-5BDC-40D2-AAA6-BE41DD946BC6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EEADA7A3-5BDC-40D2-AAA6-BE41DD946BC6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EEADA7A3-5BDC-40D2-AAA6-BE41DD946BC6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EEADA7A3-5BDC-40D2-AAA6-BE41DD946BC6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
