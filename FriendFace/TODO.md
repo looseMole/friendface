@@ -1,5 +1,5 @@
 ﻿Create integration tests for the following features:
-- [ ] User can create a new account
+- [x] User can create a new account
 - [ ] User can log in
 - [ ] User can create a new post
 - [ ] User can edit their own post
