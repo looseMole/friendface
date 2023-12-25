@@ -116,6 +116,44 @@ public class HomeControllerTests : IClassFixture<WebApplicationFactory<Program>>
     }
 
     [Fact]
+    public async Task Post_CanBeEdited_WhenLoggedIn()
+    {
+        // Arrange
+        var requestContent = new FormUrlEncodedContent(new[]
+        {
+            new KeyValuePair<string, string>("uname", "joww"),
+            new KeyValuePair<string, string>("psw", "password"),
+        });
+        
+        HttpResponseMessage response = null;
+        try
+        {
+            response = await _client.PostAsync("/Login/Login", requestContent);
+        } catch (Exception e)
+        {
+            Console.WriteLine(e);
+        }
+        var postContent = new FormUrlEncodedContent(new[]
+        {
+            new KeyValuePair<string, string>("content", "This is a test post"),
+        });
+        var postResponse = await _client.PostAsync("/Home/CreatePost", postContent);
+        
+        // Act
+        // Discover post id
+        var post = await _context.Posts.FirstOrDefaultAsync();
+        var editContent = new FormUrlEncodedContent(new[]
+        {
+            new KeyValuePair<string, string>("PostId", post.Id.ToString()),
+            new KeyValuePair<string, string>("Content", "This is an edited post"),
+        });
+        var editResponse = await _client.PostAsync("/Home/EditPost", editContent);
+        
+        // Assert
+        Assert.Equal(HttpStatusCode.Redirect, editResponse.StatusCode);
+    }
+
+    [Fact]
     public async Task Post_CanBeDeleted_WhenOwnerLoggedIn()
     {
         // Arrange
