@@ -120,7 +120,8 @@ namespace FriendFace.Tests
             try
             {
                 response = await _client.PostAsync("/Login/Login", requestContent);
-            } catch (Exception e)
+            }
+            catch (Exception e)
             {
                 Console.WriteLine(e);
             }
