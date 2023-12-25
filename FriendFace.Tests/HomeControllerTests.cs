@@ -118,6 +118,34 @@ public class HomeControllerTests : IClassFixture<WebApplicationFactory<Program>>
     [Fact]
     public async Task Post_CanBeDeleted_WhenOwnerLoggedIn()
     {
+        // Arrange
+        var requestContent = new FormUrlEncodedContent(new[]
+        {
+            new KeyValuePair<string, string>("uname", "joww"),
+            new KeyValuePair<string, string>("psw", "password"),
+        });
+        
+        HttpResponseMessage response = null;
+        try
+        {
+            response = await _client.PostAsync("/Login/Login", requestContent);
+        } catch (Exception e)
+        {
+            Console.WriteLine(e);
+        }
+        var postContent = new FormUrlEncodedContent(new[]
+        {
+            new KeyValuePair<string, string>("content", "This is a test post"),
+        });
+        var postResponse = await _client.PostAsync("/Home/CreatePost", postContent);
+        
+        // Act
+        // Discover post id
+        var post = await _context.Posts.FirstOrDefaultAsync();
+        var deleteResponse = await _client.GetAsync("/Home/DeletePost?postId="+post.Id);
+        
+        // Assert
+        Assert.Equal(HttpStatusCode.Redirect, deleteResponse.StatusCode);
     }
 
     [Fact]
