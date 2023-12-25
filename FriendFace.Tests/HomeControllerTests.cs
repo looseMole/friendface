@@ -184,5 +184,38 @@ public class HomeControllerTests : IClassFixture<WebApplicationFactory<Program>>
     [Fact]
     public async Task Comment_CanBeCreated_WhenLoggedIn()
     {
+        // Arrange
+        var requestContent = new FormUrlEncodedContent(new[]
+        {
+            new KeyValuePair<string, string>("uname", "joww"),
+            new KeyValuePair<string, string>("psw", "password"),
+        });
+        
+        HttpResponseMessage response = null;
+        try
+        {
+            response = await _client.PostAsync("/Login/Login", requestContent);
+        } catch (Exception e)
+        {
+            Console.WriteLine(e);
+        }
+        var postContent = new FormUrlEncodedContent(new[]
+        {
+            new KeyValuePair<string, string>("content", "This is a test post"),
+        });
+        var postResponse = await _client.PostAsync("/Home/CreatePost", postContent);
+        
+        // Act
+        // Discover post id
+        var post = await _context.Posts.FirstOrDefaultAsync();
+        var commentContent = new FormUrlEncodedContent(new[]
+        {
+            new KeyValuePair<string, string>("postId", post.Id.ToString()),
+            new KeyValuePair<string, string>("content", "This is a test comment"),
+        });
+        var commentResponse = await _client.PostAsync("/Home/CreateComment", commentContent);
+        
+        // Assert
+        Assert.Equal(HttpStatusCode.Redirect, commentResponse.StatusCode);
     }
 }
