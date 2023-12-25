@@ -2,7 +2,7 @@
 - [x] User can create a new account
 - [x] User can log in
 - [x] User can create a new post
-- [ ] User can edit their own post
+- [x] User can edit their own post
 - [x] User can delete their own post
 - [x] User can like a post
 - [x] User can comment on a post 
