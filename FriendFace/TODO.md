@@ -9,7 +9,7 @@
 
 Create browser tests for the following features (Fuck UI Tests?: Find out...):
 - [ ] Guest can view posts on the homepage
-- [ ] User can register: Test the registration process from the browser's perspective. This includes filling out the registration form and submitting it.
+- [x] User can register: Test the registration process from the browser's perspective. This includes filling out the registration form and submitting it.
     - Verify that the user is redirected to the homepage.
 - [ ] User can view their own profile: Test the process of viewing the user's own profile. This includes navigating to the profile page and checking that all expected information is present.
     - Verify that the user's name, username, and other details (?) are displayed correctly.

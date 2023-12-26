@@ -1,4 +1,6 @@
 ﻿using System.Diagnostics;
+using FriendFace.Data;
+using Microsoft.EntityFrameworkCore;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 using WebDriverManager;
@@ -12,6 +14,7 @@ public class BrowserTests: IDisposable
     private IWebDriver _driver;
     private Process _process;
     private readonly ITestOutputHelper _output;
+    private ApplicationDbContext _dbContext;
 
     public BrowserTests(ITestOutputHelper output)
     {
@@ -32,16 +35,28 @@ public class BrowserTests: IDisposable
                 FileName = "dotnet",
                 Arguments = "run --project " + projectPath, // adjust the path to your project file
                 UseShellExecute = false,
-                RedirectStandardOutput = true, // TODO: redirect stdout
-                RedirectStandardError = true, // TODO: redirect stderr
                 CreateNoWindow = true,
-                Environment = {
+                Environment =
+                {
                     ["ASPNETCORE_ENVIRONMENT"] = "Development",
                     ["ASPNETCORE_URLS"] = "http://localhost:5032"
                 }
             }
         };
+
+        Initialize();
+        
         _process.Start();
+    }
+    
+    private void Initialize()
+    {
+        // Connect to PostGreSQL Database
+        var options = new DbContextOptionsBuilder<ApplicationDbContext>()
+            .UseNpgsql("Host=cornelius.db.elephantsql.com;Port=5432;Database=xqpsjqpt;Username=xqpsjqpt;Password=5LMKmoVv1IdJar_Ka7uV4fi4Sht9PM8x")
+            .Options;
+
+        _dbContext = new ApplicationDbContext(options);
     }
     
     public void Dispose()
@@ -50,10 +65,22 @@ public class BrowserTests: IDisposable
         _driver.Dispose();
 
         // Stop the application
-        _output.WriteLine(_process.StandardOutput.ReadToEnd());
-        _output.WriteLine(_process.StandardError.ReadToEnd());
         _process.Kill();
         _process.Dispose();
+        
+        // Remove all data from all tables after tests. Done with raw SQL for performance
+        var tables = _dbContext.Model.GetEntityTypes();
+        
+        // Begin a new transaction
+        var transaction = _dbContext.Database.BeginTransaction();
+        foreach (var table in tables)
+        {
+            var tableName = table.GetTableName();
+            _dbContext.Database.ExecuteSqlRaw($"TRUNCATE TABLE \"{tableName}\" CASCADE;");
+        }
+        
+        transaction.Commit();
+        _dbContext.Dispose();
     }
     
     [Fact]
@@ -61,12 +88,39 @@ public class BrowserTests: IDisposable
     {
         // Arrange
         // Wait for the application to start
-        Thread.Sleep(10000); // adjust the delay as needed
+        Thread.Sleep(3000); // adjust the delay as needed
         
         // Act
         _driver.Navigate().GoToUrl("http://localhost:5032/");
 
         // Assert
         Assert.Equal("Welcome to FriendFace - FriendFace", _driver.Title);
+    }
+    
+    [Fact]
+    public void User_CanRegister_WithChrome()
+    {
+        // Arrange
+        // Wait for the application to start
+        Thread.Sleep(3000); // adjust the delay as needed
+        
+        // Act
+        _driver.Navigate().GoToUrl("http://localhost:5032/Login/Register");
+        Thread.Sleep(1000);
+        _driver.FindElement(By.Id("fname-input")).SendKeys("John");
+        Thread.Sleep(100);
+        _driver.FindElement(By.Id("lname-input")).SendKeys("Doe");
+        Thread.Sleep(100);
+        _driver.FindElement(By.Id("uname-input")).SendKeys("jow");
+        Thread.Sleep(100);
+        _driver.FindElement(By.Id("email-input")).SendKeys("jowwy@email.com");
+        Thread.Sleep(100);
+        _driver.FindElement(By.Id("psw-input")).SendKeys("password");
+        Thread.Sleep(100);
+        _driver.FindElement(By.Id("register-btn")).Click();
+        
+        // Assert
+        Thread.Sleep(2000);
+        Assert.Equal("Home - FriendFace", _driver.Title);
     }
 }
