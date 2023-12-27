@@ -23,8 +23,3 @@ Create browser tests for the following features (Fuck UI Tests?: Find out...):
   - Verify that the post's like count is updated correctly, and that the heart turns red.
 - [x] User can comment on a post: Test the process of commenting on a post. This includes navigating to the post, entering a comment, and submitting it.
 - [x] User can log out: Test the process of logging out. This includes clicking the logout button and confirming that the user is logged out.
-9. **Check Visual Elements**: In addition to functionality, browser tests should also check visual elements like layout, colors, fonts, etc. This can help catch visual regressions.
-
-10. **Keep Tests Maintainable**: As your application grows, so will your tests. It's important to keep them well-organized and easy to update. This often involves using good naming conventions, keeping tests small and focused, and avoiding duplication.
-
-Remember, the goal of testing is to increase confidence in your application. The exact practices you follow may vary based on your specific needs and context.
