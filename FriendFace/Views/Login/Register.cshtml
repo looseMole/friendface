@@ -15,30 +15,30 @@
         
         <fieldset class="form-group">
             <label for="fname"><b>First Name</b></label>
-            <input type="text" placeholder="Enter First Name" name="fname" required>
+            <input type="text" id="fname-input" placeholder="Enter First Name" name="fname" required>
         </fieldset>
         
         <fieldset class="form-group">
             <label for="lname"><b>Last Name</b></label>
-            <input type="text" placeholder="Enter Last Name" name="lname" required>
+            <input type="text" id="lname-input" placeholder="Enter Last Name" name="lname" required>
         </fieldset>
 
         <fieldset class="form-group">
             <label for="uname"><b>Username</b></label>
-            <input type="text" placeholder="Enter Username" name="uname" required>
+            <input type="text" id="uname-input" placeholder="Enter Username" name="uname" required>
         </fieldset>
         
         <fieldset class="form-group">
             <label for="email"><b>Email</b></label>
-            <input type="text" placeholder="Enter Email" name="email" required>
+            <input type="text" id="email-input" placeholder="Enter Email" name="email" required>
         </fieldset>
 
         <fieldset class="form-group">
             <label for="psw"><b>Password</b></label>
-            <input type="password" placeholder="Enter Password" name="psw" required>
+            <input type="password" id="psw-input" placeholder="Enter Password" name="psw" required>
         </fieldset>
 
-        <button type="submit" class="btn btn-primary">Register</button>
+        <button type="submit" id="register-btn" class="btn btn-primary">Register</button>
     }
 
     @if (ViewBag.ErrorMessage != null)
